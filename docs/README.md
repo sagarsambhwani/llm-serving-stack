@@ -14,6 +14,7 @@ Welcome to the technical documentation repository for the **LLM Serving Stack**.
 
 ### 🧠 Deep-Dive Engineering Guides
 * **[Multi-Model Serving & Memory Allocation](file:///e:/Downloads/vLLM/docs/multi_model_serving.md)** — PagedAttention memory mechanics, prefill compute contention, Multi-LoRA serving, explicit VRAM partitioning, and multimodal VLMs.
+* **[Supported Models & Hardware Matrix](file:///e:/Downloads/vLLM/docs/supported_models_matrix.md)** — Comprehensive comparison of parameters, VRAM footprints, benchmarks, licenses, and T4 GPU compatibility.
 * **[Benchmarking & Performance Metrics](file:///e:/Downloads/vLLM/docs/benchmarking_guide.md)** — Complete guide to TTFT, token throughput, tail latency percentiles (P50/P95/P99), and continuous batching saturation curves.
 * **[Google Colab & Cloudflare Setup Guide](file:///e:/Downloads/vLLM/colab/COLAB_GUIDE.md)** — Step-by-step instructions for launching GPU vLLM workers and tunnels.
 

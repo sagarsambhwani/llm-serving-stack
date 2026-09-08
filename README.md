@@ -137,6 +137,7 @@ Comprehensive technical guides and formal Architecture Decision Records are avai
 
 - **[System Architecture & Data Flow](file:///e:/Downloads/vLLM/docs/architecture.md)** — Complete topology, request lifecycle, and connection pooling.
 - **[Multi-Model Serving & GPU Memory Strategy](file:///e:/Downloads/vLLM/docs/multi_model_serving.md)** — PagedAttention memory dynamics, prefill contention, Multi-LoRA, explicit VRAM partitioning, and multimodal VLMs.
+- **[Supported Models & Hardware Matrix](file:///e:/Downloads/vLLM/docs/supported_models_matrix.md)** — Parameters, VRAM footprints, context windows, benchmark strengths, licensing, and T4 GPU fit.
 - **[Benchmarking & Performance Guide](file:///e:/Downloads/vLLM/docs/benchmarking_guide.md)** — In-depth breakdown of TTFT, TPS, tail latency percentiles, and continuous batching saturation curves.
 - **[Lab vs. Enterprise Production](file:///e:/Downloads/vLLM/docs/production_vs_lab.md)** — Detailed comparison between our mini stack and enterprise-scale architectures (PD Disaggregation, RDMA, KEDA).
 - **[Architecture Decision Records (ADRs)](file:///e:/Downloads/vLLM/docs/adr/index.md)** — Formal record of architectural decisions and design trade-offs:
