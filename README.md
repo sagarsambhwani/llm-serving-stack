@@ -128,3 +128,21 @@ Benchmark performance across multiple concurrency tiers (e.g. 1, 2, 4, 8, 16):
 - `--scenario short`: Quick query testing (20-50 tokens).
 - `--scenario long`: Heavy prefill context testing (400-800 tokens).
 - `--scenario prefix_cache`: Shared system prompt testing to evaluate vLLM's automatic prefix caching.
+
+---
+
+## 📚 Technical Documentation & ADRs
+
+Comprehensive technical guides and formal Architecture Decision Records are available in the **[`docs/`](file:///e:/Downloads/vLLM/docs/README.md)** directory:
+
+- **[System Architecture & Data Flow](file:///e:/Downloads/vLLM/docs/architecture.md)** — Complete topology, request lifecycle, and connection pooling.
+- **[Multi-Model Serving & GPU Memory Strategy](file:///e:/Downloads/vLLM/docs/multi_model_serving.md)** — PagedAttention memory dynamics, prefill contention, Multi-LoRA, explicit VRAM partitioning, and multimodal VLMs.
+- **[Benchmarking & Performance Guide](file:///e:/Downloads/vLLM/docs/benchmarking_guide.md)** — In-depth breakdown of TTFT, TPS, tail latency percentiles, and continuous batching saturation curves.
+- **[Lab vs. Enterprise Production](file:///e:/Downloads/vLLM/docs/production_vs_lab.md)** — Detailed comparison between our mini stack and enterprise-scale architectures (PD Disaggregation, RDMA, KEDA).
+- **[Architecture Decision Records (ADRs)](file:///e:/Downloads/vLLM/docs/adr/index.md)** — Formal record of architectural decisions and design trade-offs:
+  - [ADR 0001: OpenAI-Compatible FastAPI Gateway](file:///e:/Downloads/vLLM/docs/adr/0001-openai-compatible-fastapi-gateway.md)
+  - [ADR 0002: vLLM Engine & PagedAttention Selection](file:///e:/Downloads/vLLM/docs/adr/0002-vllm-engine-and-pagedattention.md)
+  - [ADR 0003: Multi-Model Serving & Memory Allocation Strategy](file:///e:/Downloads/vLLM/docs/adr/0003-multi-model-serving-and-memory-allocation.md)
+  - [ADR 0004: Asynchronous Multi-Concurrency Load Tester](file:///e:/Downloads/vLLM/docs/adr/0004-async-load-testing-and-benchmarking.md)
+- **[Master Experiments Roadmap](file:///e:/Downloads/vLLM/ROADMAP.md)** — Active and upcoming roadmap tracks.
+
