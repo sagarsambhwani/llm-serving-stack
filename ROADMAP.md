@@ -45,7 +45,15 @@ A prioritized master roadmap of architectural experiments, engine comparisons, m
 
 ---
 
-### 5. 🛡️ Production Gateway & Infrastructure
+### 5. 🎯 Fine-Tuning Integration & Multi-LoRA Serving
+- [ ] **Dynamic Multi-LoRA Adapter Serving**: Serve single base model + multiple task-specific LoRA adapters dynamically via `--enable-lora`.
+- [ ] **Fine-Tuned Quality & Accuracy Benchmark**: Automated test harness running held-out test splits through the gateway to measure JSON validity, schema compliance, and field-level exact match.
+- [ ] **Base vs. Fine-Tuned A/B Benchmark**: Measure latency, throughput, and accuracy delta between zero-shot base models and domain-adapted LoRA models.
+- [ ] **Unified Monorepo Architecture**: Combine fine-tuning pipelines (QLoRA / SFT) and serving stack (vLLM / SGLang / Gateway) into a flagship end-to-end LLM engineering repository.
+
+---
+
+### 6. 🛡️ Production Gateway & Infrastructure
 - [ ] **Redis Rate Limiting**: Implement distributed Token Bucket rate limiting (Requests Per Minute & Tokens Per Minute) per API key.
 - [ ] **Prefix-Affinity Load Balancer**: Implement a routing proxy that inspects prompt hashes and routes requests to the GPU node with warm KV cache.
 - [ ] **Prometheus & Grafana Observability**: Live dashboard scraping `vllm:num_requests_waiting`, `vllm:gpu_cache_usage_factor`, and `vllm:e2e_request_latency_seconds`.
