@@ -118,7 +118,9 @@ async def _stream_vllm_response(
     client_api_key: str,
 ) -> AsyncGenerator[str, None]:
     """Forward streaming response from vLLM as Server-Sent Events (SSE)."""
-    upstream_url = f"{settings.VLLM_BASE_URL}/chat/completions"
+    model_name = payload.get("model", settings.VLLM_MODEL)
+    base_url = settings.get_upstream_url(model_name)
+    upstream_url = f"{base_url}/chat/completions"
     headers = {
         "Authorization": f"Bearer {settings.VLLM_API_KEY}",
         "Content-Type": "application/json",
@@ -161,10 +163,10 @@ async def _stream_vllm_response(
         key_manager.record_usage(client_api_key, prompt_tokens, max(1, completion_tokens))
 
     except httpx.ConnectError:
-        logger.error("Failed to connect to upstream vLLM instance.")
+        logger.error(f"Failed to connect to upstream instance at {base_url}.")
         err_msg = json.dumps({
             "error": {
-                "message": f"Gateway cannot reach vLLM server at {settings.VLLM_BASE_URL}. Ensure Colab/vLLM is running and the tunnel is active.",
+                "message": f"Gateway cannot reach inference server at {base_url}. Ensure upstream server is running.",
                 "type": "gateway_connection_error",
                 "code": "upstream_unavailable",
             }
@@ -184,11 +186,14 @@ async def chat_completions(
 ):
     """
     OpenAI-compatible Chat Completion endpoint.
-    Supports both non-streaming and streaming (`stream=True`) requests.
+    Supports dynamic multi-model routing, non-streaming, and streaming (`stream=True`).
     """
     payload = req.model_dump(exclude_none=True)
     if not payload.get("model"):
         payload["model"] = settings.VLLM_MODEL
+
+    model_name = payload["model"]
+    base_url = settings.get_upstream_url(model_name)
 
     # If client requested SSE streaming
     if req.stream:
@@ -203,7 +208,7 @@ async def chat_completions(
         )
 
     # Non-streaming forward
-    upstream_url = f"{settings.VLLM_BASE_URL}/chat/completions"
+    upstream_url = f"{base_url}/chat/completions"
     headers = {
         "Authorization": f"Bearer {settings.VLLM_API_KEY}",
         "Content-Type": "application/json",
