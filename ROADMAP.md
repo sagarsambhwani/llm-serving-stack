@@ -57,3 +57,11 @@ A prioritized master roadmap of architectural experiments, engine comparisons, m
 - [ ] **Redis Rate Limiting**: Implement distributed Token Bucket rate limiting (Requests Per Minute & Tokens Per Minute) per API key.
 - [ ] **Prefix-Affinity Load Balancer**: Implement a routing proxy that inspects prompt hashes and routes requests to the GPU node with warm KV cache.
 - [ ] **Prometheus & Grafana Observability**: Live dashboard scraping `vllm:num_requests_waiting`, `vllm:gpu_cache_usage_factor`, and `vllm:e2e_request_latency_seconds`.
+
+---
+
+### 7. 🔓 Ungated & Uncensored Models (Zero Gating & No Refusals)
+- [ ] **Serve `cognitivecomputations/dolphin-2.9.3-qwen2-1.5b`**: Small ($3.0\text{ GB}$ FP16 VRAM), zero-guardrail, instant download model on T4.
+- [ ] **Serve `NousResearch/Hermes-3-Llama-3.1-8B`**: Flagship steerable uncensored model for complex logic and synthetic data generation.
+- [ ] **Serve `failspy/Meta-Llama-3.1-8B-Instruct-abliterated`**: Benchmark refusal-vector abliteration vs standard RLHF model.
+- [ ] **Serve `failspy/Llama-3.2-3B-Instruct-abliterated`**: High-speed, ungated, abliterated 3B model for local tool calling.

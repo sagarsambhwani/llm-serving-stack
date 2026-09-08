@@ -17,10 +17,13 @@ A comprehensive reference guide comparing performance benchmarks, parameter coun
 | **Qwen2.5-7B-Instruct** | 7.61B | 128k | FP16: 15.2 GB / AWQ: **4.8 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Apache 2.0** (Ungated) | SOTA 7B code generation, math, and JSON extraction |
 | **Llama-3.1-8B-Instruct** | 8.03B | 128k | FP16: 16.1 GB / AWQ: **5.5 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Llama 3.1 Community** (Gated) | Industry standard 8B model, 128k multi-turn reasoning |
 | **Mistral-7B-Instruct-v0.3**| 7.25B | 32k | FP16: 14.5 GB / AWQ: **4.9 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Apache 2.0** (Ungated) | Native function calling, robust JSON schemas |
-| **Gemma-2-9b-it** | 9.24B | 8k | FP16: 18.5 GB / AWQ: **6.2 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Gemma Terms** (Gated) | Chatbot Arena top performer (rivals 14B+ models) |
 | **Qwen2-VL-2B-Instruct** (VLM)| 2.21B | 32k | FP16: **4.5 GB** | ⭐⭐⭐⭐⭐ (Pure FP16, 10.5GB KV-cache) | **Apache 2.0** (Ungated) | High-res image/video QA, document OCR, chart analysis |
 | **Phi-3.5-vision-instruct** (VLM)| 4.15B | 128k | FP16: **8.3 GB** | ⭐⭐⭐⭐⭐ (Pure FP16, 6.7GB KV-cache) | **MIT License** (Ungated) | Multi-frame image reasoning, table extraction, OCR |
 | **MiniCPM-V-2_6** (VLM) | 8.00B | 32k | FP16: 16.0 GB / AWQ: **5.8 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Apache 2.0** (Ungated) | SOTA open vision benchmarks (beats GPT-4V on OCR) |
+| **Dolphin-2.9.3-Qwen2-1.5B** (Uncensored)| 1.54B | 32k | FP16: **3.0 GB** | ⭐⭐⭐⭐⭐ (Pure FP16, 12GB KV-cache) | **Apache 2.0** (Ungated) | Uncensored, unfiltered coding, raw technical assistance |
+| **Hermes-3-Llama-3.1-8B** (Uncensored) | 8.03B | 128k | FP16: 16.1 GB / AWQ: **5.5 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Apache 2.0** (Ungated) | Flagship steerable model, zero refusal, deep reasoning |
+| **Llama-3.1-8B-Abliterated** (Uncensored)| 8.03B | 128k | FP16: 16.1 GB / AWQ: **5.5 GB** | ⭐⭐⭐⭐ (Requires AWQ on T4) | **Llama 3.1** (Ungated Download) | Refusal-vector orthogonalized, zero benchmark degradation |
+| **Llama-3.2-3B-Abliterated** (Uncensored)| 3.21B | 128k | FP16: **6.4 GB** | ⭐⭐⭐⭐⭐ (Pure FP16, 8.5GB KV-cache) | **Llama 3.2** (Ungated Download) | Fast 3B uncensored model for tool calling & agent loops |
 
 ---
 
@@ -118,10 +121,41 @@ A comprehensive reference guide comparing performance benchmarks, parameter coun
 
 ---
 
+### 5. Ungated & Uncensored Tier (Zero Gating & No Refusal Filters)
+
+#### A. Dolphin 2.9.3 (Qwen2 1.5B)
+* **Hugging Face ID:** `cognitivecomputations/dolphin-2.9.3-qwen2-1.5b`
+* **License:** Apache 2.0 (100% Ungated).
+* **Strengths:** Ultra-lightweight uncensored model. Fits in **$3.0\text{ GB}$ of VRAM** in pure FP16 on Colab T4. Zero corporate refusal filtering, direct instruction-following.
+* **Serving Command:**
+  ```bash
+  vllm serve cognitivecomputations/dolphin-2.9.3-qwen2-1.5b --port 8000 --gpu-memory-utilization 0.90
+  ```
+
+#### B. Hermes 3 (Llama 3.1 8B)
+* **Hugging Face ID:** `NousResearch/Hermes-3-Llama-3.1-8B`
+* **License:** Apache 2.0 (100% Ungated).
+* **Strengths:** Flagship steerable model created by Nous Research. Exceptional at complex multi-turn reasoning, structured JSON outputs, and red-teaming/cybersecurity workflows without preachy refusals.
+* **Serving Command:**
+  ```bash
+  vllm serve NousResearch/Hermes-3-Llama-3.1-8B --port 8000 --gpu-memory-utilization 0.90
+  ```
+
+#### C. Meta Llama 3.1 8B Abliterated
+* **Hugging Face ID:** `failspy/Meta-Llama-3.1-8B-Instruct-abliterated`
+* **License:** Llama 3.1 (Direct ungated download on Hugging Face).
+* **Strengths:** Uses mathematical weight orthogonalization to neutralize the refusal feature direction while preserving $100\%$ of base Llama 3.1 reasoning benchmarks.
+* **Serving Command:**
+  ```bash
+  vllm serve failspy/Meta-Llama-3.1-8B-Instruct-abliterated --port 8000 --gpu-memory-utilization 0.90
+  ```
+
+---
+
 ## 📜 Licensing & Restriction Guide
 
 | License Type | Examples | Commercial Use Allowed? | Gated on HuggingFace? | Restrictions / Conditions |
 | :--- | :--- | :---: | :---: | :--- |
-| **Apache 2.0 / MIT** | Qwen 2.5, Phi-3.5, Mistral 7B | **YES** (Unrestricted) | ❌ **No** (Direct download) | Retain copyright notice. |
+| **Apache 2.0 / MIT** | Qwen 2.5, Phi-3.5, Hermes 3, Dolphin | **YES** (Unrestricted) | ❌ **No** (Direct download) | Retain copyright notice. |
 | **Meta Llama Community** | Llama 3.1, Llama 3.2 | **YES** | ✅ **Yes** (Accept click-through) | Free if $<700\text{M}$ Monthly Active Users. |
 | **Gemma Terms of Use** | Gemma 2 (2B, 9B) | **YES** | ✅ **Yes** (Accept click-through) | Must follow Google prohibited use policy. |
