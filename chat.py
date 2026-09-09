@@ -13,6 +13,17 @@ load_dotenv()
 # Configuration
 BASE_URL = os.getenv("GATEWAY_URL", "http://localhost:9000/v1")
 API_KEY = os.getenv("GATEWAY_API_KEY", "sk-antigravity-dev-key")
+
+# ANSI Color Codes for sleek terminal output
+CYAN = "\033[96m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+RED = "\033[91m"
+BOLD = "\033[1m"
+DIM = "\033[2m"
+RESET = "\033[0m"
+
+
 def get_active_model(client: OpenAI) -> str:
     """Auto-discover currently active model from the gateway/vLLM server."""
     try:
