@@ -4,10 +4,21 @@ This guide gives you the exact code to start a GPU-accelerated **vLLM** inferenc
 
 ---
 
+## 📓 Available Colab Notebooks
+
+We provide two pre-configured, ready-to-run Jupyter Notebooks in the repository:
+
+1. **[Qwen 2.5 GPU Server](file:///e:/Downloads/vLLM/colab/vllm_gpu_server.ipynb)** (`colab/vllm_gpu_server.ipynb`):
+   - Optimized for `Qwen/Qwen2.5-1.5B-Instruct` in FP16 with PagedAttention and prefix caching.
+2. **[Ungated & Uncensored Models Server](file:///e:/Downloads/vLLM/colab/vllm_uncensored_models_server.ipynb)** (`colab/vllm_uncensored_models_server.ipynb`):
+   - Features an interactive dropdown selector for **Dolphin 2.9.3 (1.5B)**, **Hermes 3 (8B)**, **Llama 3.2 (3B Abliterated)**, and **Llama 3.1 (8B Abliterated)** with zero Hugging Face gating.
+
+---
+
 ## Step 1: Open Google Colab with GPU Runtime
 
 1. Go to [Google Colab](https://colab.research.google.com/).
-2. Create a new notebook.
+2. Upload either notebook (`colab/vllm_gpu_server.ipynb` or `colab/vllm_uncensored_models_server.ipynb`).
 3. Click **Runtime** → **Change runtime type** → Select **T4 GPU** (or A100 if you have Colab Pro).
 
 ---
