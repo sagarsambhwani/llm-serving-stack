@@ -13,38 +13,39 @@ load_dotenv()
 # Configuration
 BASE_URL = os.getenv("GATEWAY_URL", "http://localhost:9000/v1")
 API_KEY = os.getenv("GATEWAY_API_KEY", "sk-antigravity-dev-key")
-MODEL = os.getenv("VLLM_MODEL", "Qwen/Qwen2.5-1.5B-Instruct")
+def get_active_model(client: OpenAI) -> str:
+    """Auto-discover currently active model from the gateway/vLLM server."""
+    try:
+        models = client.models.list()
+        if models and models.data:
+            return models.data[0].id
+    except Exception:
+        pass
+    return os.getenv("VLLM_MODEL", "Qwen/Qwen2.5-1.5B-Instruct")
 
-# ANSI Color Codes for sleek terminal output
-CYAN = "\033[96m"
-GREEN = "\033[92m"
-YELLOW = "\033[93m"
-RED = "\033[91m"
-BOLD = "\033[1m"
-DIM = "\033[2m"
-RESET = "\033[0m"
 
-
-def print_banner():
+def print_banner(model_name: str):
     print(f"{CYAN}{BOLD}" + "=" * 65 + f"{RESET}")
     print(f"{CYAN}{BOLD}  🤖 Interactive vLLM Terminal Chatbot{RESET}")
-    print(f"{DIM}  Model:    {MODEL}{RESET}")
-    print(f"{DIM}  Endpoint: {BASE_URL}{RESET}")
-    print(f"{DIM}  Auth:     Bearer {API_KEY[:14]}...{RESET}")
+    print(f"{DIM}  Active Model: {model_name}{RESET}")
+    print(f"{DIM}  Endpoint:     {BASE_URL}{RESET}")
+    print(f"{DIM}  Auth:         Bearer {API_KEY[:14]}...{RESET}")
     print(f"{CYAN}{BOLD}" + "=" * 65 + f"{RESET}")
     print(f"{YELLOW}Commands:{RESET}")
     print(f"  {BOLD}/clear{RESET}       - Reset conversation history")
     print(f"  {BOLD}/system <msg>{RESET} - Change assistant persona")
+    print(f"  {BOLD}/model <name>{RESET} - Switch target model")
     print(f"  {BOLD}/exit{RESET}        - Quit chat\n")
 
 
 def main():
-    print_banner()
-
     client = OpenAI(
         base_url=BASE_URL,
         api_key=API_KEY,
     )
+
+    model_name = get_active_model(client)
+    print_banner(model_name)
 
     system_prompt = "You are a helpful, insightful, and concise AI assistant."
     history = [{"role": "system", "content": system_prompt}]
@@ -67,6 +68,11 @@ def main():
                 print(f"{YELLOW}🧹 Conversation history cleared.{RESET}\n")
                 continue
 
+            if user_input.startswith("/model "):
+                model_name = user_input[7:].strip()
+                print(f"{YELLOW}🔄 Switched target model to: \"{model_name}\"{RESET}\n")
+                continue
+
             if user_input.startswith("/system "):
                 system_prompt = user_input[8:].strip()
                 history = [{"role": "system", "content": system_prompt}]
@@ -80,7 +86,7 @@ def main():
             print(f"{CYAN}{BOLD}AI  > {RESET}", end="", flush=True)
 
             stream = client.chat.completions.create(
-                model=MODEL,
+                model=model_name,
                 messages=history,
                 temperature=0.7,
                 max_tokens=512,

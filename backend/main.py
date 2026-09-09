@@ -136,8 +136,16 @@ async def _stream_vllm_response(
         ) as response:
             if response.status_code != 200:
                 error_text = await response.aread()
-                logger.error(f"Upstream vLLM error {response.status_code}: {error_text.decode('utf-8')}")
-                yield f"data: {json.dumps({'error': {'message': 'Upstream vLLM error', 'code': response.status_code}})}\n\n"
+                raw_err = error_text.decode('utf-8', errors='ignore')
+                err_detail = raw_err
+                try:
+                    parsed = json.loads(raw_err)
+                    if isinstance(parsed, dict):
+                        err_detail = parsed.get("message") or parsed.get("detail") or raw_err
+                except Exception:
+                    pass
+                logger.error(f"Upstream error {response.status_code} from {base_url}: {err_detail}")
+                yield f"data: {json.dumps({'error': {'message': f'Upstream Error ({response.status_code}): {err_detail}', 'code': response.status_code}})}\n\n"
                 yield "data: [DONE]\n\n"
                 return
 
